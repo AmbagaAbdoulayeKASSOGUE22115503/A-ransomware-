@@ -13,8 +13,8 @@ This project involves creating an educational ransomware to understand the worki
 # Important to kwo:
 
 To install the cryptography package the command is:
-• on linux: pip install cryptography
-• on windows: py -m pip install cryptography
+<• on linux: pip install cryptography>
+<• on windows: py -m pip install cryptography>
 
 # Conclusion:
 
