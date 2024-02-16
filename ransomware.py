@@ -26,3 +26,24 @@ def derive_key(salt, password):
 def load_salt():
     return open("salt.salt", "rb").read()
 
+
+"""generates a key from the 'password' and the salt.
+If 'load_existing_salt' is True, it'll load the salt from a file
+in the current directory called 'salt.salt'.
+If 'save_salt' is True than it'll generate a new
+salt and save it to 'salt.salt' . """
+def generate_key(password, salt_size=16, load_existing_salt=False, save_salt=True):
+    if load_existing_salt:
+        # load existing salt
+        salt = load_salt()
+    elif save_salt:
+        # generate new salt and save it
+        salt = generate_salt(salt_size)
+        with open("salt.salt", "wb") as salt_file:
+            salt_file.write(salt)
+    # generate the key from the salt and the password
+    derive_key = derive_key(salt,password)
+    # encode it using Base 64 and return it
+    return base64.urlsafe_b64encode(derive_key)
+
+
