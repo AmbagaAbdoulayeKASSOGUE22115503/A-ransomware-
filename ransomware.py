@@ -59,3 +59,17 @@ def encrypt(filename, key):
     with open(filename, "wb") as file:
         file.write(encrypted_data)
     
+"""function that encrypt a folder"""
+def encrypt_folder(foldername, key):
+    # if it's a folder, encrypt the entire folder (i.e all the containing files)
+    for child in pathlib.Path(foldername).glob("*"):
+        if child.is_file():
+            print(f"[*] Encrypting {child}")
+            #encrypt the file
+            encrypt(child, key)
+        elif child.is_dir():
+            #if it's a folder, encrypt the entire folder by calling this function recursively
+            encrypt_folder(child, key)
+
+        
+
