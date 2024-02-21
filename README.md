@@ -20,10 +20,10 @@ To install the cryptography package the command is:
 # How to run:
 To test the script, you have to come up with files you don't need or have a copy of them somewhere on your computer (because if you forget the password during the encryption it will be impossible to decrypt them). For my case, I've made a folder named TestOfRansomware in the same directory where ransomware.py is located and brought some PDF documents, images, text files, and other files.
 - To encrypt:
-$ python ransomware.py -e . -s 32
+  - $ python ransomware.py -e . -s 32
 I've specified the salt to be 32 in size and passed the '.' current folder to the script. You will be prompted for a password for encryption (you can choose the password you want).
 - To decrypt:
-$ python ransomware.py -d .
+  - $ python ransomware.py -d .
 In the decryption process, do not pass -s as it will generate a new salt and override the previous salt that was used for encryption and so you won't be able to recover your files. You can edit the code to     
 prevent this parameter in decryption.
 Than you'll have to pass the password and the entire folder will be back to its original form!
